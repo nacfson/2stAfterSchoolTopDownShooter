@@ -2,7 +2,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.UI;
+using UnityEngine.Events;
 public class AgentMovement : MonoBehaviour
 {
     Rigidbody2D _rigid;
@@ -13,7 +14,7 @@ public class AgentMovement : MonoBehaviour
 
     protected float _currentVelocity = 0f;
     protected Vector2 _movementDirection;
-
+    public UnityEvent<float> OnVelocityChanged;
     void Awake()
     {
         _rigid = GetComponent<Rigidbody2D>();
@@ -21,6 +22,7 @@ public class AgentMovement : MonoBehaviour
     }
     private void FixedUpdate()
     {
+        OnVelocityChanged?.Invoke(_currentVelocity); // 현재 속도를 계속 업데이트 한다
         _rigid.velocity = _movementDirection * _currentVelocity;
     }
 

@@ -18,6 +18,7 @@ public class Weapon : MonoBehaviour
     protected bool _isShooting;
     protected bool _delayCoroutine = false;
 
+
     #region About Ammo
     protected int _currentAmmo;
     public int CurrentAmmo
@@ -82,7 +83,21 @@ public class Weapon : MonoBehaviour
 
     private void ShootBullet()
     {
-        Debug.Log("shoot");
+        SpawnBullet(_muzzle.position,CalculateAngle(_muzzle));
+    }
+
+    private void SpawnBullet(Vector3 position, Quaternion rot)
+    {
+        RegularBullet b = PoolManager.Instance.Pop("Bullet") as RegularBullet;
+        b.SetPositionAndRotation(position,rot);
+        b.isEnemy = false;
+    }
+
+    private Quaternion CalculateAngle(Transform muzzle)
+    {
+        float spread = UnityEngine.Random.Range(-_weaponData.spreadAngle, _weaponData.spreadAngle);
+        Quaternion bulletSpreadRot = Quaternion.Euler(new Vector3(0, 0, spread));
+        return muzzle.transform.rotation * bulletSpreadRot;
     }
 
     public void TryShooting()
