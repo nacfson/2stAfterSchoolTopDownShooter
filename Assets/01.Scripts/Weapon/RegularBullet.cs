@@ -23,7 +23,7 @@ public class RegularBullet : PoolableMono
         _timeToLive += Time.fixedDeltaTime;
         _rigid.MovePosition(transform.position + transform.right * _bulletData.bulletSpeed * Time.fixedDeltaTime);
 
-        if(_timeToLive > _bulletData.lifeTime)
+        if (_timeToLive > _bulletData.lifeTime)
         {
             _isDead = true;
             PoolManager.Instance.Push(this);
@@ -34,9 +34,13 @@ public class RegularBullet : PoolableMono
     {
         if (_isDead) return;
 
-        if(collision.gameObject.layer == LayerMask.NameToLayer("Obstacle"))
+        if (collision.gameObject.layer == LayerMask.NameToLayer("Obstacle"))
         {
             HitObstacle(collision);
+        }
+        if (collision.gameObject.layer == LayerMask.NameToLayer("Enemy"))
+        {
+            HitEnemy(collision);
         }
     }
 
@@ -49,7 +53,7 @@ public class RegularBullet : PoolableMono
         if (hit.collider != null)
         {
             Quaternion rot = Quaternion.Euler(new Vector3(0, 0, Random.Range(0, 360f)));
-            impact.SetPositionAndRotation(hit.point + (Vector2)transform.right  * 0.5f, rot);
+            impact.SetPositionAndRotation(hit.point + (Vector2)transform.right * 0.5f, rot);
         }
         _isDead = true;
         PoolManager.Instance.Push(this);
@@ -57,7 +61,14 @@ public class RegularBullet : PoolableMono
 
     private void HitEnemy(Collider2D collision)
     {
-        
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, transform.right, 10f,1 << LayerMask.NameToLayer("Enemy"));
+
+        if (hit.collider != null)
+        {
+            //Quaternion rot = Quaternion.Euler(new Vector3(0, 0, Random.Range(0, 360f)));
+            IDamageable damageable = hit.collider.gameObject.GetComponent<IDamageable>();
+            damageable?.GetHit(_bulletData.damage, this.transform, hit.point, hit.normal);
+        }
     }
 
 
@@ -65,7 +76,7 @@ public class RegularBullet : PoolableMono
     {
         transform.SetPositionAndRotation(pos, rot);
     }
-    
+
 
 
     public override void Reset()
