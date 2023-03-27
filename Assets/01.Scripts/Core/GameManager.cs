@@ -6,30 +6,34 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    private GameManager _instnace;
+    private static GameManager _instance;
     [SerializeField]
     private PoolingListSO _poolingList;
 
-    public GameManager Instance
+    [SerializeField]
+    private Transform _playerTrm; //찾아오는 형식으로 변경
+    public Transform PlayerTransform => _playerTrm;
+    
+    public static GameManager Instance
     {
         get
         {
-            if(_instnace == null)
+            if(_instance == null)
             {
-                _instnace = this;
+                Debug.LogError("Multiple!");
             }
-            return _instnace;
+            return _instance;
         }
     }
 
     void Awake()
     {
-        if (_instnace != null)
+        if (_instance != null)
         {
             Debug.LogError("Multiple GameManger is running! Check!");
         }
 
-        _instnace = this;
+        _instance = this;
         TimeController.Instance = transform.AddComponent<TimeController>();
         DontDestroyOnLoad(this.gameObject);
         MakePool();

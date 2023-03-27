@@ -14,6 +14,7 @@ public abstract class Feedback : MonoBehaviour
 
     protected virtual void OnDisable()
     {
+        Debug.Log("CompleteFeedBack");
         CompleteFeedback();
     }
 }
