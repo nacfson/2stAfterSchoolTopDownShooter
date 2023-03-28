@@ -8,6 +8,11 @@ public class AITransition : MonoBehaviour
 
     public AIState _transitionState; // 전이할 상태
 
+    private void Awake()
+    {
+        GetComponents<AIDecision>(decisions);
+    }
+
     public void SetUp(Transform parentTrm)
     {
         decisions.ForEach(d => d.SetUp(parentTrm));

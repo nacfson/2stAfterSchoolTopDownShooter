@@ -8,6 +8,14 @@ public class AIState : MonoBehaviour
     public List<AIAction> actions = new List<AIAction>();
     public List<AITransition> transitions = new List<AITransition>();
     private EnemyBrain _brain;
+    /// <summary>
+    /// Awake is called when the script instance is being loaded.
+    /// </summary>
+    private void Awake()
+    {
+        GetComponentsInChildren<AITransition>(transitions);
+        GetComponents<AIAction>(actions);
+    }
     public void SetUp(Transform parentTrm)
     {
         _brain = parentTrm.GetComponent<EnemyBrain>();
