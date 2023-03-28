@@ -20,6 +20,12 @@ public class AgentMovement : MonoBehaviour
         _rigid = GetComponent<Rigidbody2D>();
         
     }
+
+    public void StompImmediately()
+    {
+        _rigid.velocity = Vector2.zero;
+    }
+
     private void FixedUpdate()
     {
         OnVelocityChanged?.Invoke(_currentVelocity); // 현재 속도를 계속 업데이트 한다
