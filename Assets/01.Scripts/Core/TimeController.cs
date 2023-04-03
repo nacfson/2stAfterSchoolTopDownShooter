@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class TimeController : MonoBehaviour
 {
-public static TimeController Instance;
+    public static TimeController Instance;
 
     public void ResetTimeScale()
     {

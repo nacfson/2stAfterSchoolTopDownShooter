@@ -47,12 +47,13 @@ public class Weapon : MonoBehaviour
     {
         if(_isShooting&& _delayCoroutine == false)
         {
-            if(CurrentAmmo  > 0)
+            if(CurrentAmmo  >=   _weaponData.bulletCount)
             {
                 OnShoot?.Invoke();
                 for (int i = 0; i < _weaponData.bulletCount; i++)
                 {
                     ShootBullet();
+                    _currentAmmo -= 1;
                 }
             }
             else
@@ -110,7 +111,4 @@ public class Weapon : MonoBehaviour
         _isShooting = false;
         OnStopShooting?.Invoke();
     }
-
-
-
 }

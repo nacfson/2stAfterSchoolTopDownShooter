@@ -12,8 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 477c63b08d287e64eaec3c4de5b3a142, type: 3}
   m_Name: AssaultRifle
   m_EditorClassIdentifier: 
-  ammoCapcity: 100
+  ammoCapacity: 30
   autoFire: 0
   weaponDelay: 0.1
   spreadAngle: 5
+  realodTime: 1
   bulletCount: 1
+  reloadClip: {fileID: 8300000, guid: 1adb6ab7f57563a4a952d8d20f2e415c, type: 3}

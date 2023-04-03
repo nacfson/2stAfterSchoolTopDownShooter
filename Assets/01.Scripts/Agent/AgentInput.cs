@@ -16,14 +16,26 @@ public class AgentInput : MonoBehaviour, IAgentInput
     [field: SerializeField]
     public UnityEvent OnFireButtonRelease { get; set ; }
 
+    public UnityEvent OnReloadButtonPress;
+
     private bool _fireButtonDown = false;
+
 
     private void Update()
     {
         GetMovementInput();
         GetPointerInput();
         GetFireInput();
+        GetReloadInput();
 
+    }
+
+    private void GetReloadInput()
+    {
+        if(Input.GetKeyDown(KeyCode.R))
+        {
+            OnReloadButtonPress?.Invoke();
+        }
     }
 
     private void GetFireInput()
@@ -51,7 +63,7 @@ public class AgentInput : MonoBehaviour, IAgentInput
     {
         Vector3 mousePos = Input.mousePosition;
         mousePos.z = 0f;
-        Vector2 mouseInWorldPos = MainCam.ScreenToWorldPoint(mousePos); //이 코드는 좋지 않음
+        Vector2 mouseInWorldPos = MainCam.ScreenToWorldPoint(mousePos);
         OnPointerpositionChanged?.Invoke(mouseInWorldPos);
     }
 

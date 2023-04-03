@@ -18,7 +18,6 @@ public class Pool<T> where T : PoolableMono
             obj.gameObject.name = obj.gameObject.name.Replace("(Clone)", "");
             obj.gameObject.SetActive(false);
             _pool.Push(obj);
-
         }
     }
 
