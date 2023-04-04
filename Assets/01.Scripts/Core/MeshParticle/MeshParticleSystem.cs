@@ -33,6 +33,10 @@ public class MeshParticleSystem : MonoBehaviour
     private Vector2[] _uv;
     private int[] _triangles;
 
+    private bool _updateVertices;
+    private bool _updateUV;
+    private bool _updateTriangles;
+
     private void Awake()
     {
         _mesh = new Mesh();
@@ -43,6 +47,9 @@ public class MeshParticleSystem : MonoBehaviour
         _mesh.vertices = _vertices;
         _mesh.uv = _uv;
         _mesh.triangles = _triangles;
+        //메시의 경계 바운드가 작으면 특정 좌표 이상 화면 밖으로 나가면 메시 전체가 그려지지 않는다.
+        //따라서 경계 바운드를 넓혀줘야 한다.
+        _mesh.bounds = new Bounds(Vector3.zero, Vector3.one * 10000f);
 
         _meshFilter = GetComponent<MeshFilter>();
         _meshRenderer = GetComponent<MeshRenderer>();
@@ -80,20 +87,25 @@ public class MeshParticleSystem : MonoBehaviour
     {
         return Random.Range(8,9);
     }
+    private int _cnt = 0;
 
     void Update()
     {
-        if(Input.GetMouseButtonDown(0))
-        {
-            Vector3 pos =Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            pos.z = 0;
-            AddQuad(pos,0,new Vector3(1,1,0),false,GetRandomShellIndex());
-        }
-        else if(Input.GetMouseButtonDown(1))
+        if(Input.GetMouseButtonDown(1))
         {
             Vector3 pos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             pos.z = 0;
-            AddQuad(pos,0 ,new Vector3(1,1,0),false ,GetRandomBloodIndex());
+            Vector3 quadSize = new Vector3(1,1,0);
+            float rot = 0;
+            int uvIndex = GetRandomShellIndex();
+            int qIndex = AddQuad(pos,rot ,quadSize,false ,uvIndex);
+            FunctionUpdater.Instance.Create(() => {
+                pos += new Vector3(1,1) * 0.8f * Time.deltaTime;
+                quadSize += new Vector3(1,1) * Time.deltaTime; //초당 1씩 커지고
+                rot += 360f * Time.deltaTime;
+
+                UpdateQuad(qIndex,pos,rot,quadSize,false,uvIndex);
+            });
         }
     }
     private int _quadIndex= 0 ;
@@ -141,9 +153,52 @@ public class MeshParticleSystem : MonoBehaviour
         _triangles[tIndex + 4] = vIndex2;
         _triangles[tIndex + 5] = vIndex3; 
 
-        _mesh.vertices = _vertices;
-        _mesh.uv = _uv;
-        _mesh.triangles = _triangles;
+        _updateVertices = true;
+        _updateUV = true;
+        _updateTriangles = true;
     }
 
+    private void LateUpdate()
+    {
+        if(_updateVertices)
+        {
+        _mesh.vertices = _vertices;
+        _updateVertices = false;
+
+        }
+        if(_updateUV)
+        {
+        _mesh.uv = _uv;
+        _updateUV = false;
+
+        }
+        if(_updateTriangles)
+        {
+        _mesh.triangles = _triangles;
+        _updateTriangles = false;
+        }
+    }
+
+    public void DestroyQuad(int quadIndex)
+    {
+        int vIndex0 = quadIndex * 4;
+        int vIndex1 = vIndex0 * 4;
+        int vIndex2 = vIndex1 * 4;
+        int vIndex3 = vIndex1 * 4;
+
+        _vertices[vIndex0] = Vector3.zero;
+        _vertices[vIndex1] = Vector3.zero;
+        _vertices[vIndex2] = Vector3.zero;
+        _vertices[vIndex3] = Vector3.zero;
+
+        _updateVertices = true;
+    }
+
+    public void DestroyAllQuad()
+    {
+        Array.Clear(_vertices,0,_vertices.Length);
+        
+        _quadIndex = 0;
+        _updateVertices = true;
+    }
 }

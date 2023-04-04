@@ -43,6 +43,7 @@ Material:
     - _IsDissolve: 0
     - _IsSolidColor: 0
     - _NoiseScale: 20
+    - _Showrate: -1
     m_Colors:
     - _DissolveColor: {r: 5.656854, g: 0, b: 0, a: 0}
   m_BuildTextureStacks: []

@@ -4,15 +4,9 @@ using UnityEngine;
 
 public class AIActionData : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    public Vector3 hitPoint;
+    public Vector3 hitNormal;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    
+
 }
