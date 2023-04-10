@@ -8,6 +8,7 @@ public class AgentAnimator : MonoBehaviour
     protected Animator _animator;
     protected readonly int _walkBoolHash = Animator.StringToHash("WALK");
 
+
     public UnityEvent OnFootStep;
     private void Awake()
     {
@@ -24,6 +25,10 @@ public class AgentAnimator : MonoBehaviour
     public void AnimatePlayer(float velocity)
     {
         SetWalkAnimation(velocity > 0);
+    }
+
+    public void SetAnimationSpeed(float value){
+        _animator.speed = value;
     }
 }
 
