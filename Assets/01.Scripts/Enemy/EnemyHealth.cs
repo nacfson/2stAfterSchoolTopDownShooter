@@ -43,4 +43,5 @@ public class EnemyHealth : MonoBehaviour, IDamageable
         _isDead = true;
         OnDie?.Invoke();
     }
+
 }

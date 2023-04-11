@@ -16,6 +16,7 @@ public class EnemyBrain : PoolableMono{
 
     [SerializeField]
     private bool _isActive = false;
+    public bool IsActive => _isActive;
 
     private void Awake() {
         _enemyRenderer = transform.Find("VisualSprite").GetComponent<EnemyRenderer>();

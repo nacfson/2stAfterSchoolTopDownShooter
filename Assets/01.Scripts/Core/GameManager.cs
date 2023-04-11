@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using DG.Tweening;
 using Random = UnityEngine.Random;
 
 public class GameManager : MonoBehaviour
@@ -61,11 +62,25 @@ public class GameManager : MonoBehaviour
             currentTime += Time.deltaTime;
             if(currentTime > 3f){
                 currentTime = 0f;
+                DG.Tweening.Sequence seq = DOTween.Sequence();
                 int idx = Random.Range(0,_spawnPointList.Count);
+                Transform spawnPoint =_spawnPointList[idx];
 
-                EnemyBrain enemy = PoolManager.Instance.Pop("EnemyGrowler") as EnemyBrain;
-                enemy.transform.position = _spawnPointList[idx].position;
-                enemy.ShowEnemy(); // 보이기 시작
+                EnemyBrain tempEnemy = null;
+                for(int i = 0; i< 4; i++){
+                    Vector3 randPos = Random.insideUnitCircle * 1.5f;
+                    EnemyBrain enemy = PoolManager.Instance.Pop("EnemyGrowler") as EnemyBrain;
+                    tempEnemy= enemy;
+                    enemy.transform.position = spawnPoint.position + randPos;
+                    enemy.ShowEnemy();
+                    //yield return new WaitWhile(!tempEnemy.IsActive);
+                    while(!tempEnemy.IsActive){
+                        yield return null;
+                    }
+                }
+
+
+
             }
             yield return null;
         }
