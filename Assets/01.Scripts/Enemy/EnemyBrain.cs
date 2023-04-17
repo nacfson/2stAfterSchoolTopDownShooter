@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -8,6 +6,8 @@ public class EnemyBrain : PoolableMono{
 
     public UnityEvent<Vector2> OnMovementKeyPress;
     public UnityEvent<Vector2> OnPointerPositionChanged;
+
+    public UnityEvent OnAttackButtonPress= null;
 
     public Transform basePosition; //거리 측정을 몬스터의 바닥에서 함
     public AIState currentState;
@@ -57,5 +57,10 @@ public class EnemyBrain : PoolableMono{
     public override void Reset(){
         _isActive = false;
         _enemyRenderer.Reset();
+    }
+
+    public void Attack(){
+        //공격 수행
+        OnAttackButtonPress?.Invoke();
     }
 }
