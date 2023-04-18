@@ -7,6 +7,7 @@ public class AgentHealth : MonoBehaviour, IDamageable{
     private int _maxHP;
     private int _currentHP;
 
+    public UnityEvent<int> OnInitHealth = null;
     public UnityEvent<int,int> OnHealthChanged = null;
 
     public int Health{
@@ -27,6 +28,11 @@ public class AgentHealth : MonoBehaviour, IDamageable{
     public Vector3 HitPoint {get;set;}
     private void Start() {
         _currentHP = _maxHP;
+        OnInitHealth?.Invoke(_maxHP);
+        OnHealthChanged?.Invoke(_currentHP,_maxHP);
+    }
+    public void AddHealth(int value){
+        Health += value;
         OnHealthChanged?.Invoke(_currentHP,_maxHP);
     }
 
@@ -39,6 +45,7 @@ public class AgentHealth : MonoBehaviour, IDamageable{
             OnDead?.Invoke();
             _isDead = true;
         }
+
         OnHealthChanged?.Invoke(_currentHP,_maxHP);
     }
 }

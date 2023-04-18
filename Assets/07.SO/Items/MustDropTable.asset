@@ -10,8 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c05ae601c1d4f9f478cad2c15d9c1823, type: 3}
-  m_Name: GrowlerDropTable
+  m_Name: MustDropTable
   m_EditorClassIdentifier: 
   dropList:
-  - {fileID: 11400000, guid: 42adfb477ceadfb4da540b919c0009c0, type: 2}
-  - {fileID: 11400000, guid: 5563a33b902491f4db46bb7bc29faf08, type: 2}
+  - {fileID: 11400000, guid: 83f2d6bbc78dbf246b18c18c4849b697, type: 2}

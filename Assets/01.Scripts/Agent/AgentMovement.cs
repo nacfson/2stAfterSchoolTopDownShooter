@@ -17,7 +17,9 @@ public class AgentMovement : MonoBehaviour {
         _rigid = GetComponent<Rigidbody2D>();
     }
     public void StompImmediately(){
+        _movementDirection = Vector2.zero;
         _rigid.velocity = Vector2.zero;
+        _currentVelocity = 0f;
     }
     
     private void FixedUpdate(){
@@ -28,8 +30,7 @@ public class AgentMovement : MonoBehaviour {
     public void MoveAgent(Vector2 movementInput){
         if(movementInput.sqrMagnitude > 0f)
         {
-            if(Vector2.Dot(movementInput,_movementDirection) < 0f)
-            {
+            if(Vector2.Dot(movementInput,_movementDirection) < 0f){
                 _currentVelocity = 0f; 
             }
             _movementDirection = movementInput.normalized;
@@ -38,12 +39,10 @@ public class AgentMovement : MonoBehaviour {
     }
 
     private float CalculateSpeed(Vector2 movementInput){
-        if(movementInput.sqrMagnitude > 0f)
-        {
+        if(movementInput.sqrMagnitude > 0f){
             _currentVelocity += _movementDataSO.acceleration * Time.deltaTime;
         }  
-        else
-        {
+        else{
             _currentVelocity -= _movementDataSO.deAcceleration * Time.deltaTime;
         }
         return Mathf.Clamp(_currentVelocity,0f, _movementDataSO.maxSpeed);

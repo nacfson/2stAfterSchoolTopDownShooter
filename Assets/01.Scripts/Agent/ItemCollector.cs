@@ -16,6 +16,8 @@ public class ItemCollector : MonoBehaviour{
         _collectList = new List<ItemScript>();
         _typeDictionary = new Dictionary<ItemType, UnityEvent<int>>();
         _typeDictionary.Add(ItemType.Ammo,OnAmmoAdded);
+        _typeDictionary.Add(ItemType.Health,OnHealthAdded);
+        _typeDictionary.Add(ItemType.Coin,null);
         _resourceLayer = LayerMask.NameToLayer("Item"); //아이템 레이어의 번호를 가져온다
     }
     private void FixedUpdate() {
@@ -45,9 +47,12 @@ public class ItemCollector : MonoBehaviour{
     }
 
     public UnityEvent<int> OnAmmoAdded = null;
+    public UnityEvent<int> OnHealthAdded = null;
+
     private void ProcessItem(ItemType type,int value){
         _typeDictionary[type]?.Invoke(value);
     }
+
     private void OnDrawGizmos() {
         if(UnityEditor.Selection.activeObject == this.gameObject){
             Gizmos.color = Color.red;

@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
 using UnityEngine.Events;
-public class FeedbackDissolve : Feedback
-{
+public class FeedbackDissolve : Feedback{
     [SerializeField]
     private SpriteRenderer _spriteRenderer;
     [SerializeField]
@@ -12,15 +11,13 @@ public class FeedbackDissolve : Feedback
 
     public UnityEvent FeedbackComplete;
     
-    public override void CompleteFeedback()
-    {
+    public override void CompleteFeedback(){
         _spriteRenderer.material.SetInt("_IsDissolve",0);
         _spriteRenderer.material.DOComplete();
         _spriteRenderer.material.SetFloat("_Dissolve",1);
     }
 
-    public override void CreateFeedback()
-    {
+    public override void CreateFeedback(){
         _spriteRenderer.material.SetInt("_IsDissolve",1);
         _spriteRenderer.material.DOFloat(0, "_Dissolve",_duration).OnComplete(()=>
         {

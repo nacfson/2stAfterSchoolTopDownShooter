@@ -38,10 +38,14 @@ public class EnemyHealth : MonoBehaviour, IDamageable
         }
     }
 
-    private void DeadProcess()
-    {
+    private void DeadProcess(){
         _isDead = true;
         OnDie?.Invoke();
+    }
+
+    public void Reset(){
+        _currentHealth = _maxHealth;
+        _isDead = false;
     }
 
 }

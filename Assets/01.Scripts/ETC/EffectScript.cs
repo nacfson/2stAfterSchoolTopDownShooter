@@ -12,7 +12,7 @@ public class EffectScript : PoolableMono{
     private Light2D _light;
     private float _initIntensity;
     
-    private void Awake() {
+    private void Awake(){
         _particleEffect = GetComponent<ParticleSystem>();
         _light = transform.Find("Light 2D").GetComponent<Light2D>();
         _initIntensity = _light.intensity;

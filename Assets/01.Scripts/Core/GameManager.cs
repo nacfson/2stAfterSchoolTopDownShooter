@@ -67,16 +67,18 @@ public class GameManager : MonoBehaviour
                 Transform spawnPoint =_spawnPointList[idx];
 
                 EnemyBrain tempEnemy = null;
-                for(int i = 0; i< 4; i++){
+                int cnt = Random.Range(2,5);
+
+                for(int i = 0; i< cnt; i++){
                     Vector3 randPos = Random.insideUnitCircle * 1.5f;
                     EnemyBrain enemy = PoolManager.Instance.Pop("EnemyGrowler") as EnemyBrain;
-                    tempEnemy= enemy;
+                    
+                    tempEnemy = enemy;
                     enemy.transform.position = spawnPoint.position + randPos;
                     enemy.ShowEnemy();
                     //yield return new WaitWhile(!tempEnemy.IsActive);
-                    while(!tempEnemy.IsActive){
-                        yield return null;
-                    }
+                    float showTime = Random.Range(0.1f,0.3f);
+                    yield return new WaitForSecondsRealtime(showTime);
                 }
 
 

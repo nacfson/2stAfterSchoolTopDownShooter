@@ -14,6 +14,7 @@ public class Weapon : MonoBehaviour
     public UnityEvent OnShoot;
     public UnityEvent OnShootNoAmmo;
     public UnityEvent OnStopShooting;
+    public UnityEvent<int> OnChangeAmmo = null;
 
     protected bool _isShooting;
     protected bool _delayCoroutine = false;
@@ -34,8 +35,7 @@ public class Weapon : MonoBehaviour
 
     #endregion
 
-    private void Awake()
-    {
+    private void Awake(){
         _currentAmmo = _weaponData.ammoCapacity;
     }
     private void Update()
@@ -53,7 +53,8 @@ public class Weapon : MonoBehaviour
                 for (int i = 0; i < _weaponData.bulletCount; i++)
                 {
                     ShootBullet();
-                    _currentAmmo -= 1;
+                    CurrentAmmo -= 1;
+                    OnChangeAmmo?.Invoke(CurrentAmmo);
                 }
             }
             else
@@ -101,8 +102,7 @@ public class Weapon : MonoBehaviour
         return muzzle.transform.rotation * bulletSpreadRot;
     }
 
-    public void TryShooting()
-    {
+    public void TryShooting(){
         _isShooting = true;
     }
 

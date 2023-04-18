@@ -21,6 +21,7 @@ public class EnemyRenderer : AgentRenderer{
         Material mat = _spriteRenderer.material;
         _effectScript = PoolManager.Instance.Pop("DustEffect") as EffectScript;
         _effectScript.transform.position = transform.position + _offset;
+        //_effectScript.transform.SetParent(null);
         _effectScript.PlayEffect();
 
         transform.localPosition = _offset;
@@ -53,7 +54,7 @@ public class EnemyRenderer : AgentRenderer{
         StopAllCoroutines(); // 모든 코루틴 중지
         _animator.SetAnimationSpeed(1);
         _spriteRenderer.material.SetFloat(_showRateHash, -1f);
-        if(_effectScript != null){
+        if(_effectScript != null&& _effectScript.gameObject.activeSelf){
             _effectScript.StopEffect();
         }
 
