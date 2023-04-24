@@ -34,7 +34,7 @@ public class ItemScript : PoolableMono{
 
     //OnDisable 도 해줘야됨
 
-    public override void Reset(){
+    public override void Init(){
         gameObject.layer = LayerMask.NameToLayer("Item");
         _spriteRenderer.enabled = true;
         _collider.enabled = true;

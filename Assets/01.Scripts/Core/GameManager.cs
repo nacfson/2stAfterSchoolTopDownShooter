@@ -53,7 +53,7 @@ public class GameManager : MonoBehaviour
     }
 
     private void Start() {
-        StartCoroutine(SpawnEnemies());
+        //StartCoroutine(SpawnEnemies());
     }
 
     private IEnumerator SpawnEnemies()    {

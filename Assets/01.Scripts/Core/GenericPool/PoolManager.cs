@@ -28,7 +28,7 @@ public class PoolManager
             return null;
         }
         PoolableMono item = _pools[prefabName].Pop();
-        item.Reset();
+        item.Init();
         return item;
     }
     public void Push(PoolableMono obj)

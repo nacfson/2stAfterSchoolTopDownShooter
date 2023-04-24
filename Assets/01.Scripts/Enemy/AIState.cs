@@ -5,34 +5,29 @@ using UnityEngine;
 
 public class AIState : MonoBehaviour
 {
-    public List<AIAction> actions = new List<AIAction>();
-    public List<AITransition> transitions = new List<AITransition>();
+    private List<AIAction> _actions;
+    private List<AITransition> _transitions;
     private EnemyBrain _brain;
-    /// <summary>
-    /// Awake is called when the script instance is being loaded.
-    /// </summary>
-    private void Awake()
-    {
-        GetComponentsInChildren<AITransition>(transitions);
-        GetComponents<AIAction>(actions);
+
+    private void Awake(){
+        _actions = new List<AIAction>();
+        _transitions = new List<AITransition>();
+        GetComponentsInChildren<AITransition>(_transitions);
+        GetComponents<AIAction>(_actions);
     }
     public void SetUp(Transform parentTrm)
     {
         _brain = parentTrm.GetComponent<EnemyBrain>();
-        actions.ForEach(a => a.SetUp(parentTrm));
-        transitions.ForEach(t => t.SetUp(parentTrm));
+        _actions.ForEach(a => a.SetUp(parentTrm));
+        _transitions.ForEach(t => t.SetUp(parentTrm));
     }
-    public void UpdateState()
-    {
-        foreach(AIAction action in actions)
-        {
+    public void UpdateState(){
+        foreach(AIAction action in _actions){
             action.TakeAction();
         }
 
-        foreach(AITransition t in transitions)
-        {
-            if(t.CanTransition())
-            {
+        foreach(AITransition t in _transitions){
+            if(t.CanTransition()){
                 //상태전환
                 _brain.ChangeState(t._transitionState);
             }

@@ -87,7 +87,7 @@ public class RegularBullet : PoolableMono
 
 
 
-    public override void Reset()
+    public override void Init()
     {
         _isDead = false;
         _timeToLive = 0;

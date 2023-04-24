@@ -2,34 +2,29 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AITransition : MonoBehaviour
-{
-    public List<AIDecision> decisions;
+public class AITransition : MonoBehaviour{
+    protected List<AIDecision> _decisions;
 
     public AIState _transitionState; // 전이할 상태
 
-    private void Awake()
-    {
-        GetComponents<AIDecision>(decisions);
+    private void Awake(){
+        _decisions = new();
+        GetComponents<AIDecision>(_decisions);
     }
 
-    public void SetUp(Transform parentTrm)
-    {
-        decisions.ForEach(d => d.SetUp(parentTrm));
+    public void SetUp(Transform parentTrm){
+        _decisions.ForEach(d => d.SetUp(parentTrm));
     }
-    public bool CanTransition()
-    {
+
+    public bool CanTransition(){
         bool result = false;
-        foreach(var decision in decisions)
-        {
+        foreach(var decision in _decisions){
             result = decision.MakeADecision();
-            if(decision.isReverse)
-            {
+            if(decision.isReverse){
                 result = !result;
             }
 
-            if(result == false)
-            {
+            if(result == false){
                 break;
             }
         }
